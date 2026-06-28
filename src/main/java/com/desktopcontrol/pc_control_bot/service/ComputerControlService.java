@@ -47,9 +47,12 @@ public class ComputerControlService {
             for (int i = 0; i < steps; i++) {
                 volumeCommands.append("$wsh.SendKeys('").append(key).append("'); ");
             }
-            volumeCommands.append("$wsh.SendKeys('%{F4}'); ");
 
             run("powershell -Command \"$wsh = New-Object -ComObject WScript.Shell; " + volumeCommands.toString() + "\"");
+
+            Thread.sleep(100);
+            new ProcessBuilder("cmd", "/c", "taskkill /f /im sndvol.exe").start();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

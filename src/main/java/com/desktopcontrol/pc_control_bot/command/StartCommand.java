@@ -14,7 +14,8 @@ public class StartCommand implements BotCommand {
             + "\"inline_keyboard\": ["
             + "  [{\"text\": \"📸 Зробити скріншот\", \"callback_data\": \"cmd_screenshot\"}],"
             + "  [{\"text\": \"🔒 Заблокувати ПК\", \"callback_data\": \"cmd_lock\"}],"
-            + "  [{\"text\": \"🔊 Керування звуком...\", \"callback_data\": \"menu_volume\"}]"
+            + "  [{\"text\": \"🔊 Керування звуком...\", \"callback_data\": \"menu_volume\"}],"
+            + "  [{\"text\": \"🧹 Очистити чат\", \"callback_data\": \"cmd_clear_chat\"}]"
             + "]"
             + "}";
 

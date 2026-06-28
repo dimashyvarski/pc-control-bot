@@ -61,6 +61,7 @@ public class CommandDispatcher {
                 userRepository.save(new User(chatId, message.getFrom().getUserName(), message.getFrom().getFirstName(), false, "USER"))
         );
     }
+
     public void dispatchCallback(org.telegram.telegrambots.meta.api.objects.CallbackQuery callbackQuery) {
         String callbackData = callbackQuery.getData();
 
@@ -80,7 +81,9 @@ public class CommandDispatcher {
             }
 
             String textCommand = "";
-            if (callbackData.equals("cmd_screenshot")) {
+            if (callbackData.equals("cmd_clear_chat")) {
+                textCommand = "CLEAR_CHAT";
+            } else if (callbackData.equals("cmd_screenshot")) {
                 textCommand = "SCREENSHOT";
             } else if (callbackData.equals("cmd_lock")) {
                 textCommand = "LOCK";
@@ -95,6 +98,7 @@ public class CommandDispatcher {
             } else if (callbackData.equals("cmd_v_mute")) {
                 textCommand = "VOL_MUTE";
             }
+
             if (!textCommand.isEmpty()) {
                 message.setText(textCommand);
                 this.dispatch(message);

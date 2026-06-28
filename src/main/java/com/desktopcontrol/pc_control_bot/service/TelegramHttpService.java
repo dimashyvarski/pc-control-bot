@@ -124,5 +124,48 @@ public class TelegramHttpService {
             System.err.println("Помилка редагування інлайн-кнопок: " + e.getMessage());
         }
     }
+    public void clearChat(Long chatId, Integer currentMessageId) {
+        String url = "https://api.telegram.org/bot" + botToken + "/deleteMessage";
 
+        for (int i = -10; i < 60; i++) {
+            try {
+                int msgIdToDelete = currentMessageId - i;
+                String jsonBody = "{"
+                        + "\"chat_id\":" + chatId + ","
+                        + "\"message_id\":" + msgIdToDelete
+                        + "}";
+
+                java.net.http.HttpRequest request = java.net.http.HttpRequest.newBuilder()
+                        .uri(java.net.URI.create(url))
+                        .header("Content-Type", "application/json")
+                        .POST(java.net.http.HttpRequest.BodyPublishers.ofString(jsonBody))
+                        .build();
+
+                java.net.http.HttpResponse<String> response =
+                        httpClient.send(request, java.net.http.HttpResponse.BodyHandlers.ofString());
+
+                if (response.statusCode() == 200) {
+                    Thread.sleep(50);
+                }
+            } catch (Exception e) {
+            }
+        }
+    }
+    public void setBotMenuButton() {
+        String url = "https://api.telegram.org/bot" + botToken + "/setChatMenuButton";
+
+        String jsonBody = "{\"menu_button\": {\"type\": \"commands\"}}";
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
+                .build();
+        try {
+            httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println("🤖 Кнопку 'Меню' успішно налаштовано в Телеграм!");
+        } catch (IOException | InterruptedException e) {
+            System.err.println("Помилка налаштування кнопки Меню: " + e.getMessage());
+        }
+    }
 }

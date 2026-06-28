@@ -12,12 +12,16 @@ import java.util.List;
 public class TelegramBotService implements SpringLongPollingBot, LongPollingUpdateConsumer {
 
     private final CommandDispatcher commandDispatcher;
+    private final TelegramHttpService telegramHttpService;
 
     @Value("${spring.telegram.bot.token}")
     private String botToken;
 
-    public TelegramBotService(CommandDispatcher commandDispatcher) {
+    public TelegramBotService(CommandDispatcher commandDispatcher, TelegramHttpService telegramHttpService) {
         this.commandDispatcher = commandDispatcher;
+        this.telegramHttpService = telegramHttpService;
+
+        this.telegramHttpService.setBotMenuButton();
     }
 
     @Override
